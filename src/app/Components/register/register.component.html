@@ -1,0 +1,46 @@
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2 class="main-head">Responsive Registration Form</h2>
+    </div>
+    <div class="row clearfix">
+      <div class="">
+        <form [formGroup]='registerForm' (ngSubmit)="getRegistered()" nctype="multipart/form-data">
+          <div class="row clearfix">
+            <div class="col_half">
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                <input [class.is-valid]="registerForm.get('first_name')?.errors == null && registerForm.get('first_name')?.touched" type="text" formControlName="first_name" name="first_name" placeholder="First Name" />
+                <p class="text-danger text-center" *ngIf="registerForm.get('first_name')?.errors != null && registerForm.get('first_name')?.touched">Invalid Field</p>
+              </div>
+            </div>
+            <div class="col_half">
+              <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                <input type="text" formControlName="last_name" placeholder="Last Name" name="last_name" required />
+                <p class="text-danger text-center" *ngIf="registerForm.get('last_name')?.errors != null && registerForm.get('last_name')?.touched">Invalid Field</p>
+              </div>
+            </div>
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+            <input type="email" name="email" formControlName="email" placeholder="Email" required />
+            <p class="text-danger text-center" *ngIf="registerForm.get('email')?.errors != null && registerForm.get('email')?.touched">Invalid Field</p>
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+            <input type="password" name="password" formControlName="password" placeholder="Password" required />
+            <p class="text-danger text-center" *ngIf="registerForm.get('password')?.errors != null && registerForm.get('password')?.touched">Invalid Field</p>
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+            <input type="password" name="confirm_password" formControlName="confirm_password" placeholder="Re-type Password" required />
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-phone"></i></span>
+            <input type="tel" name="mobile_phone" formControlName="mobile_phone" placeholder="mobile_phone" required />
+            <p class="text-danger text-center" *ngIf="registerForm.get('mobile_phone')?.errors != null && registerForm.get('mobile_phone')?.touched">Invalid Field</p>
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-image"></i></span>
+            <input type="file" name="profile_image" formControlName="profile_image" placeholder="Upload Image" (change)="onFileSelect($event)"required />
+          </div>
+          <input [disabled]="registerForm.invalid" class="button" type="submit" value="Register" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

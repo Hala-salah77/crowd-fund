@@ -1,0 +1,30 @@
+<div class="form_wrapper mb-5">
+  <div class="form_container">
+    <div class="title_container">
+      <h2 class="main-head">Login Form</h2>
+    </div>
+    <div class="row clearfix">
+      <div>
+        <div *ngIf="errorMessage" class="text-center alert-danger  py-2">{{errorMessage}}</div>
+        <form [formGroup]='loginForm' (ngSubmit)="getlogin()" nctype="multipart/form-data">
+          <div class="row clearfix">
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+            <input type="email" name="email" formControlName="email" placeholder="Email" required />
+            <p class="text-danger" *ngIf="loginForm.get('email')?.errors != null && loginForm.get('email')?.touched">Invalid Field</p>
+          </div>
+          <div class="input_field"> <span style="cursor: pointer;" (click)="changePassword()"><i aria-hidden="true" class="fa fa-lock"></i></span>
+            <input type="password" name="password" formControlName="password" placeholder="Password" required id="pass"/>
+            <p class="text-danger" *ngIf="loginForm.get('password')?.errors != null && loginForm.get('password')?.touched">Invalid Field</p>
+          </div>
+          <div class="input_field checkbox_option">
+            <input type="checkbox" id="cb1" name="forgetPassword">
+            <label for="cb1">Forget Password</label>
+          </div>
+          <button class="button w-100"><i class="fa-brands fa-facebook-square"></i> &nbsp; Login with Facebook</button>
+          <input [disabled]="loginForm.invalid" class="button" type="submit" value="Login" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

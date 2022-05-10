@@ -1,0 +1,67 @@
+@import url(https://fonts.googleapis.com/css?family=Lato&subset=latin-ext);
+:root {
+  --main: #20d5d0;
+  --sec:#f5ba1a;
+  --pColor: #232D4B;
+}
+body{
+  overflow-x: hidden;
+}
+h1,h2,h3,h4,h5,h6{
+  color:var(--main);
+}
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: transparent !important;
+}
+button:focus,button:active{
+  outline: none !important;
+  outline: 0 !important;
+}
+.img-box{
+  overflow: hidden;
+}
+.swiper-pagination-bullet-active{
+  background-color: var(--main);
+}
+.swiper-button-prev, .swiper-button-next {
+  position: absolute;
+  background: var(--main);
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50%;
+  color: #fff !important;
+  top: 85%;
+}
+.swiper-button-prev:after,
+.swiper-button-next:after{
+  font-size: 20px !important;
+  font-weight: bold !important;
+}
+.swiper-button-next{
+  right: 40% !important;
+}
+.swiper-button-prev{
+  left: 40% !important;
+}
+
+.main-head {
+  background: linear-gradient(330deg, var(--sec) 25%, #52e0e0 50%, #232d4b 75%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 3.2rem;
+  font-weight: 600;
+  line-height: 4rem;
+}
+.project-container{
+  cursor: pointer;
+}
+.project-container img{
+  transition: all ease-in-out .4s;
+}
+.project-container:hover img{
+  transform: scale(1.1,1.1);
+}
+.img-box{
+  overflow: hidden;
+}

@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a class="navbar-brand px-1" routerLink='home'>Crowd-Funding</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item d-flex justify-content-lg-center align-items-lg-center">
+          <a class="nav-link" routerLinkActive="active-link" aria-current="page" routerLink='home'>Home</a>
+        </li>
+        <li  class="nav-item d-flex justify-content-lg-center align-items-lg-center">
+          <a class="nav-link"  routerLink='project'>Projects</a>
+        </li>
+        <li *ngIf="!_AuthService.isLoggedIn()" class="nav-item d-flex justify-content-lg-center align-items-lg-center">
+          <a class="nav-link" routerLink='login'>Login</a>
+        </li>
+        <li *ngIf="!_AuthService.isLoggedIn()" class="nav-item d-flex justify-content-lg-center align-items-lg-center">
+          <a class="nav-link" routerLink='register'>Register</a>
+        </li>
+        <li class="nav-item d-flex justify-content-lg-center align-items-lg-center"><i class="fa-solid fa-magnifying-glass search"></i></li>
+        <li class="nav-item dropdown nav-toggle" style="margin-left: 30px;">
+          <a *ngIf="_AuthService.isLoggedIn()" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="../../../assets/profile.jpg" style="height: 50px;width:50px;" alt="profile image"><span> {{name}}</span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="z-index: 9999;">
+            <li><a class="dropdown-item" routerLink="profile">Profile</a></li>
+            <li><a class="dropdown-item" routerLink="profile/myprojects">Projects</a></li>
+            <li><a class="dropdown-item" routerLink="profile/mydonations">Donations</a></li>
+            <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="fixed-layer position-fixed">
+
+  <i class="fa-solid fa-xmark close position-absolute"></i>
+  <div class="search-bar pb-3 bg-white">
+    <div class="container" style="height: 100vh;">
+      <input type="search" class="w-100 form-controll mb-3 py-3 px-3 my-5" placeholder="Search" [(ngModel)]="term">
+      <div class="search-results bg-light row">
+        <a class="menu-content {{project.category.name}} all my-3" *ngFor="let project of searchProjectsArray|search:term;let i=index" [routerLink]="['/project/details', project.id]" (click)="closeSearch()">
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="img-box">
+                  <img [src]="'http://127.0.0.1:8000'+project.images[0]" alt="project image" class="img-fluid " style="width: 70px;">
+                </div>
+                    <h6 class="title mx-3 text-black">{{project.title}}  <span> - </span></h6>
+                    <p class="text-dark">{{project.details|seeMore:120}} </p>
+
+            </div>
+        </a>
+    </div>
+    </div>
+  </div>
+</div>

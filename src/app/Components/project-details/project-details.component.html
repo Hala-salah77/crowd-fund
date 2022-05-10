@@ -1,0 +1,201 @@
+
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-lg-8">
+          <!-- section 1 -->
+          <h2 class="mb-4">{{projectDetails?.title}}</h2>
+          <img [src]="'http://127.0.0.1:8000'+projectDetails?.images[0]" class="cover-image mb-4" alt="" />
+
+          <div class="d-flex align-items-center justify-content-start gap-4">
+            <div
+              class="d-flex align-items-center justify-content-center icon success"
+            >
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <span class="fw-bold">{{projectDetails?.owner.first_name}} {{projectDetails?.owner.last_name}} is organizing this fundraiser.</span>
+          </div>
+          <hr class="mb-4" />
+          <!-- section 2 -->
+          <div>
+            <h6 class="mb-3">
+              Help Alexei Navalny’s team spread the truth about Russia’s war and
+              Putin’s corruption
+            </h6>
+            <p class="fs-6">
+              {{projectDetails?.details}}
+            </p>
+
+            <!-- <p>
+              Propaganda kills — in the truest sense of the word. Opening the
+              news and looking at the pictures of ruined Ukrainian cities would
+              be enough to realize this. The problem is that most people in
+              Russia are denied the chance to see this news, and even if they
+              do, they believe it to be fake. The sooner Russians wake up and
+              recognize the horrific reality, the sooner the war will end. To
+              bring it to an end and prevent further wars, we want to launch our
+              own news media channel, one that cannot be shut down by the
+              Kremlin, and reach out to the millions who are still unaware of
+              what Putin is doing on their behalf.
+            </p> -->
+          </div>
+
+          <!-- section 3 -->
+          <div class="d-flex gap-3 mb-5 mt-5">
+            <button type="button" name="" id="" class="btn btn-warning col p-2 donante col">Donate</button>
+          </div>
+          <hr class="mb-4" />
+
+          <!-- section 4 -->
+          <div class="mb-5">
+            <h3 class="my-3">Owner</h3>
+            <div class="d-flex align-items-start gap-4 mx-4">
+              <div>
+                <p class="h5">{{projectDetails?.owner.first_name}} {{projectDetails?.owner.last_name}}</p>
+                <p>Contacts :</p>
+                <a [href]="'mailto:' +projectDetails?.owner.email" target="_blank"><i class="fa-solid fa-envelope text-warning" style="font-size: 25px;"></i></a>
+                <a *ngIf="projectDetails?.owner.facebook_profile" [href]="projectDetails?.owner.facebook_profile" target="_blank"><i class="fa-brands fa-facebook-square mx-4" style="font-size: 25px;"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <hr class="mb-4" />
+
+          <!-- section 4 -->
+          <div class="mb-5">
+            <h3 class="mb-5 mt-5">Comments</h3>
+            <div class="d-flex align-items-start gap-4">
+
+              <div class="col-12">
+                <div class="d-flex" *ngFor="let comment of comments">
+                  <div class="d-flex align-items-center justify-content-center icon success">
+                   <img [src]="'http://127.0.0.1:8000'+comment?.user.profile_image" alt="user image" class="img-fluid">
+                  </div>
+                  <div class="comment px-2">
+                    <p class="fw-bold">{{comment?.user.first_name}} {{comment?.user.last_name}}</p>
+                    <p>
+                     {{comment?.comment}}
+                    </p>
+                  </div>
+                </div>
+                <form (ngSubmit)="addCommet()">
+                  <div class="input_field position-relative mt-3">
+                    <input type="text" name="comment" formControlName="comment" placeholder="Write your comment" class="w-100 p-2" required />
+                    <input [disabled]="comment.invalid" class="btn-success position-absolute h-100" type="submit" value="send" style="right: 0;z-index: 222;"/>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <hr class="mb-5 mt-5" />
+
+          <!-- section 6  -->
+
+          <div class="d-flex align-items-center justify-content-start gap-4">
+            <span><span class="fw-bold">Ends at</span> {{projectDetails?.end_campaign}}</span>
+          </div>
+
+          <hr class="mb-5 mt-5" />
+
+          <!-- section 7  -->
+
+          <div class="mb-5 mt-5">
+              <!-- Button trigger modal -->
+            <a href="http://" class="flag p-2"data-bs-toggle="modal" data-bs-target="#modelId">
+              <i class="fa-brands fa-font-awesome"></i> Report funraiser</a>
+          </div>
+        </div>
+        <!-- End of col-lg-8 -->
+        <div class="col-lg-4">
+          <div class="card border-0 shadow sticky-top my-5">
+            <div class="card-body">
+              <div class="fs-6 text-black">
+                <span class="fs-4 fw-bold text-black">$137,760 </span
+                ><span class="text-black-50">USD raised of $750,000 goal</span>
+              </div>
+              <div class="progress mt-2" style="height: 5px">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="50"></div>
+              </div>
+              <div class="mt-4">
+                <p>1.8K donations</p>
+              </div>
+              <div class="card-buttons">
+
+                <button
+                  type="button"
+                  name=""
+                  id=""
+                  class="btn btn-warning p-2 d-block w-100"
+                >
+                  Donate On
+                </button>
+              </div>
+
+              <div class="d-flex align-items-center gap-2 mt-3">
+                <div
+                  class="d-flex align-items-center justify-content-center icon success"
+                >
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div class="opacity-50">
+                  <span>46 people have just made a donation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End of col-lg-4 -->
+      </div>
+      <!-- End of Row -->
+    </div>
+    <!-- End of Container -->
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Report a fundraiser</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <input type="text"
+                class="form-control" name="name" id="name" aria-describedby="helpId" placeholder=" Your Name...">
+            </div>
+             <div class="row">
+               <div class="col-lg-4">
+                 <div class="">
+                   <select class="form-control" name="" id="">
+                     <option>Egypt</option>
+                     <option>Mansoura</option>
+                     <option>Zagzig</option>
+                   </select>
+                 </div>
+               </div>
+               <div class="col-lg-8">
+                <div class="mb-3">
+                  <input type="text"
+                    class="form-control" name="phone" id="phone" aria-describedby="helpId" placeholder=" Your Phone Number...">
+                </div>
+               </div>
+             </div>
+            <div class="mb-3">
+              <input type="text"
+                class="form-control" name="email" id="email" aria-describedby="helpId" placeholder=" Your Email...">
+            </div>
+            <div class="mb-3">
+              <input type="text"
+                class="form-control" name="email" id="email" aria-describedby="helpId" placeholder="Confirm Email...">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Send Email</button>
+          </div>
+        </div>
+      </div>
+    </div>

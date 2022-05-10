@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row my-5">
+    <p *ngIf=" message" class="fw-bold my-5 text-center text-danger" style="height: 50vh;">{{message}}</p>
+    <div class="col-md-4 mb-5 project-container" *ngFor="let donations of userProjects;let i=index" [routerLink]="['/project/details', donations.id]">
+        <div class="img-box mb-3">
+          <img class="img-fluid" [src]="'http://127.0.0.1:8000'+donations.project.images[0]" alt="project image" />
+        </div>
+        <h5>{{donations.project.title}}</h5>
+        <p>{{donations.project.details|seeMore:60}}</p>
+        <span class="fw-bold">By {{donations.user.first_name|titlecase}}</span> <span class="fw-bold"> {{donations.user.last_name|titlecase}}</span>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

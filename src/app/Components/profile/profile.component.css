@@ -1,0 +1,13 @@
+.icon-drop{
+  right: 0;
+  top: 13px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.icon-drop button{
+  background-color: transparent !important;
+  border: 0 !important;
+}
+
+

@@ -1,0 +1,81 @@
+<app-header></app-header>
+
+<div class="main-head text-center my-5">Top Rated</div>
+<div class="container mb-5">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="row">
+      <swiper [config]="config">
+        <div class="swiper-wrapper container">
+          <div (click)="navigateToDetails(project)" class="swiper-slide project-container" *ngFor="let project of topRatedProjectsArray;let i=index">
+              <div class="img-box mb-3">
+                <img class="img-fluid" [src]="'http://127.0.0.1:8000'+project.images[0]" alt="project image" />
+              </div>
+              <h5>{{project.title}}</h5>
+              <p>{{project.details|seeMore:100}}</p>
+              <span class="fw-bold">By {{project.owner.first_name|titlecase}} {{project.owner.last_name|titlecase}}</span>
+          </div>
+
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </swiper>
+    </div>
+  </div>
+
+
+</div>
+
+
+<div class="main-head text-center my-5 pt-5">Latest Projects</div>
+<div class="container">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="row">
+      <swiper [config]="config">
+        <div class="swiper-wrapper container">
+          <div   class="swiper-slide project-container" *ngFor="let project of latestProjectsArray;let i=index">
+              <div class="img-box mb-3">
+                <img class="img-fluid" [src]="'http://127.0.0.1:8000'+project.images[0]" alt="project image" />
+              </div>
+              <h5>{{project.title}}</h5>
+              <p>{{project.details|seeMore:100}}</p>
+              <span class="fw-bold">By {{project.owner.first_name|titlecase}} {{project.owner.last_name|titlecase}}</span>
+          </div>
+
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </swiper>
+    </div>
+  </div>
+</div>
+
+
+<section class="menu pb-5">
+  <div class="container">
+      <h2 class="main-head text-center mt-5" >Our Projects</h2>
+      <ul class=" list-unstyled text-center my-5">
+          <li class="d-inline-block active" id="all">All</li>
+          <li class="d-inline-block"  id="{{category.name}}"  *ngFor="let category of categories">{{category.name}}</li>
+      </ul>
+      <div class="row d-flex justify-content-center align-items-center">
+          <div  class="col-md-4 menu-content {{project.category.name}} all mb-5" *ngFor="let project of allProjectsArray;let i=index" [routerLink]="['/project/details', project.id]">
+              <div>
+                  <div class="img-box">
+                    <img [src]="'http://127.0.0.1:8000'+project.images[0]" alt="project image" class="img-fluid ">
+                  </div>
+                  <div class="box">
+                      <h5 class="title my-3">{{project.title}}</h5>
+                      <p>{{project.details|seeMore:60}} </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<app-footer></app-footer>
+
+
+
