@@ -20,9 +20,12 @@ import { ProfileComponent } from './Components/profile/profile.component';
 import { EditProfileComponent } from './Components/edit-profile/edit-profile.component';
 import { MyProjectsComponent } from './Components/my-projects/my-projects.component';
 import { MyDonationsComponent } from './Components/my-donations/my-donations.component';
+import{ ProjectDetailsComponent }from './Components/project-details/project-details.component';
 import { UserProjectsComponent } from './Components/user-projects/user-projects.component';
 import { SearchPipe } from './search.pipe';
 import {AuthInterceptorService} from './Services/auth.interceptor'
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +43,7 @@ import {AuthInterceptorService} from './Services/auth.interceptor'
     MyProjectsComponent,
     MyDonationsComponent,
     UserProjectsComponent,
+    ProjectDetailsComponent,
     SearchPipe
   ],
   imports: [
@@ -49,8 +53,9 @@ import {AuthInterceptorService} from './Services/auth.interceptor'
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    CommonModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(), // ToastrModule added
+    ToastrModule.forRoot(), NgbModule, // ToastrModule added
   ],
   providers: [
     {

@@ -3,26 +3,42 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/Services/project.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
-
+import { SwiperOptions } from 'swiper';
+declare var $: any;
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.css']
 })
 export class ProjectDetailsComponent implements OnInit {
+starRating=0;
+sendRating=0;
 id:any;
 projectDetails:any;
 comments:any;
+tag:any;
+similar:any;
+commentId:any;
+
   constructor(private _Activatedroute: ActivatedRoute,private _ProjectService:ProjectService,private toastr: ToastrService) {
     this.id=this._Activatedroute.snapshot.paramMap.get("id");
     console.log(this.id);
-    this.getAllProfileData();
+    this.getProjectDetails();
     this.getAllComments();
   }
 
   comment:FormGroup=new FormGroup({
     'comment': new FormControl(null,[Validators.required]),
+  });
+  projectReport:FormGroup=new FormGroup({
+    'reason': new FormControl(null,[Validators.required]),
+  });
+  commentReport:FormGroup=new FormGroup({
+    'reason': new FormControl(null,[Validators.required]),
+  });
 
+  donation:FormGroup=new FormGroup({
+    paid_up: new FormControl(null,[Validators.required]),
   });
 
   showSuccess(msg:any,title:any) {
@@ -50,17 +66,130 @@ comments:any;
     (error) => {
       //this.errorMessage=error.error.message_error;
     })
+  }
+
+  addProjectReport(){
+    let userId:any=localStorage.getItem('id');
+    const formData = new FormData();
+    formData.append( "reason", this.projectReport.get('reason')?.value );
+    formData.append( "user",userId);
+    formData.append( "project",this.id);
+    console.log(formData);
+    this._ProjectService.projectReport(formData).subscribe((res)=>{
+      if(res.status == 1){
+        console.log(res.data);
+        this.showSuccess('Report Added Successfully',"Report");
+        $(".btn-close").click();
+      }
+      else {
+        console.log("response "+res.message_error);
+      }
+    },
+    (error) => {
+      //this.errorMessage=error.error.message_error;
+    })
+  }
+  addDonation(){
+    let userId:any=localStorage.getItem('id');
+    let dollar:number=this.donation.get('paid_up')?.value;
+
+    let data={
+      "paid_up": dollar,
+      "user":userId,
+      "project":this.id
+    }
+    this._ProjectService.donate(data).subscribe((res)=>{
+      if(res.status == 1){
+        console.log(res.data);
+        this.showSuccess('Donation Added Successfully',"Donation");
+        $(".btn-close").click();
+        this.getProjectDetails();
+      }
+      else {
+        console.log("response "+res.message_error);
+      }
+    },
+    (error) => {
+      //this.errorMessage=error.error.message_error;
+    })
+  }
+  getCommentId(id:any){
+    this.commentId=id;
+  }
+
+  addCommentReport(){
+    let userId:any=localStorage.getItem('id');
+    const formData = new FormData();
+    formData.append( "reason", this.commentReport.get('reason')?.value );
+    formData.append( "user",userId);
+    formData.append( "comment",this.commentId);
+    console.log(formData);
+    this._ProjectService.commentReport(formData).subscribe((res)=>{
+      if(res.status == 1){
+        this.commentReport.reset();
+        this.showSuccess('Report Added Successfully',"Report");
+        $(".btn-close").click();
+      }
+      else {
+        console.log("response "+res.message_error);
+      }
+    },
+    (error) => {
+      //this.errorMessage=error.error.message_error;
+    })
+  }
+
+
+  sendingRate(){
+    let data={
+      rate:this.sendRating,
+      project:this.id,
+      user:localStorage.getItem('id')
+    }
+    console.log(data);
+    this._ProjectService.addRate(data).subscribe((res)=>{
+      if(res.status == 1){
+        console.log(res.data);
+        $(".btn-close").click();
+        this.showSuccess('Rate Added Successfully',"Rating");
+        this.getProjectDetails();
+      }
+      else {
+        console.log("response "+res.message_error);
+      }
+    },
+    (error) => {
+      //this.errorMessage=error.error.message_error;
+    })
 
   }
 
 
-  /* ______________________                   ___________________
-__________________________ Get User Profile ____________________*/
+/* ______________________                   ___________________
+__________________________ Get Project Details ____________________*/
 
-getAllProfileData(){
+getProjectDetails(){
   this._ProjectService.getProjectDetails(this.id).subscribe((res)=>{
   console.log(res.data);
   this.projectDetails=res.data;
+  this.tag=res.data.tags[0].tag;
+  this.starRating=res.data.rate;
+  console.log(this.starRating);
+  console.log(this.tag);
+  this.getSimilarProjects(this.tag);
+  console.log("____________________")
+},
+(error) => {
+  console.log(error.error)
+})
+}
+/* ______________________                       ___________________
+__________________________ Get Similar Projects ____________________*/
+
+getSimilarProjects(tag:any){
+  this._ProjectService.getSimilarProjects(tag).subscribe((res)=>{
+  console.log(res.data);
+  this.similar=res.data;
 },
 (error) => {
   console.log(error.error)
@@ -88,5 +217,34 @@ getAllComments(){
   ngOnInit(): void {
 
   }
+/* ______________________                      _____________________
+__________________________ Swiper Configration ____________________*/
+  config: SwiperOptions = {
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    slidesPerView: 1,
+    spaceBetween: 20,
+    scrollbar: { draggable: true },
+    breakpoints:{
+      '100': {
+        slidesPerView: 1,
+        spaceBetween: 20
+      },
+      '768': {
+        slidesPerView: 3,
+        spaceBetween: 40
+      },
+      '1024': {
+        slidesPerView: 4,
+        spaceBetween: 50
+      }
+    }
+  };
 
 }

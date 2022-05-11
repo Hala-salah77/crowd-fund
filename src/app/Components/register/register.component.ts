@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators ,FormBuilder} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {Router} from '@angular/router'
 import {AuthService} from '../../Services/auth.service';
+declare var $: any;
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -59,6 +60,14 @@ getRegistered() {
         console.log(error.error)
       })
 
+}
+
+changePassword(){
+  $(".fa-lock").toggleClass('fa-unlock')
+  if($('#pass').attr('type') == 'password')
+    $('#pass').attr('type', 'text');
+  else
+  $('#pass').attr('type', 'password');
 }
 
 }

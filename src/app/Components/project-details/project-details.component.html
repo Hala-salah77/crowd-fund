@@ -4,7 +4,7 @@
         <div class="col-lg-8">
           <!-- section 1 -->
           <h2 class="mb-4">{{projectDetails?.title}}</h2>
-          <img [src]="'http://127.0.0.1:8000'+projectDetails?.images[0]" class="cover-image mb-4" alt="" />
+          <img [src]="'http://127.0.0.1:8000'+projectDetails?.images[0].image" class="cover-image mb-4" alt="" />
 
           <div class="d-flex align-items-center justify-content-start gap-4">
             <div
@@ -25,24 +25,12 @@
             <p class="fs-6">
               {{projectDetails?.details}}
             </p>
-
-            <!-- <p>
-              Propaganda kills — in the truest sense of the word. Opening the
-              news and looking at the pictures of ruined Ukrainian cities would
-              be enough to realize this. The problem is that most people in
-              Russia are denied the chance to see this news, and even if they
-              do, they believe it to be fake. The sooner Russians wake up and
-              recognize the horrific reality, the sooner the war will end. To
-              bring it to an end and prevent further wars, we want to launch our
-              own news media channel, one that cannot be shut down by the
-              Kremlin, and reach out to the millions who are still unaware of
-              what Putin is doing on their behalf.
-            </p> -->
           </div>
 
           <!-- section 3 -->
           <div class="d-flex gap-3 mb-5 mt-5">
-            <button type="button" name="" id="" class="btn btn-warning col p-2 donante col">Donate</button>
+            <button type="button" class="btn btn-warning col p-2 donante col" data-bs-toggle="modal" data-bs-target="#rateModel">Rate</button>
+            <button type="button" name="" id="" class="btn btn-warning col p-2 donante col" data-bs-toggle="modal" data-bs-target="#donateModel">Donate</button>
           </div>
           <hr class="mb-4" />
 
@@ -65,20 +53,22 @@
           <div class="mb-5">
             <h3 class="mb-5 mt-5">Comments</h3>
             <div class="d-flex align-items-start gap-4">
-
               <div class="col-12">
-                <div class="d-flex" *ngFor="let comment of comments">
-                  <div class="d-flex align-items-center justify-content-center icon success">
-                   <img [src]="'http://127.0.0.1:8000'+comment?.user.profile_image" alt="user image" class="img-fluid">
+                <div class="d-flex justify-content-between" *ngFor="let comment of comments">
+                  <div>
+                    <div class="d-flex align-items-center justify-content-center icon success">
+                      <img [src]="'http://127.0.0.1:8000'+comment?.user.profile_image" alt="user image" class="img-fluid">
+                    </div>
+                    <div class="comment px-2">
+                      <p class="fw-bold">{{comment?.user.first_name}} {{comment?.user.last_name}}</p>
+                      <p>
+                        {{comment?.comment}}
+                      </p>
+                    </div>
                   </div>
-                  <div class="comment px-2">
-                    <p class="fw-bold">{{comment?.user.first_name}} {{comment?.user.last_name}}</p>
-                    <p>
-                     {{comment?.comment}}
-                    </p>
-                  </div>
+                  <div (click)="getCommentId(comment?.id)"class="mx-2 mt-3" data-bs-toggle="modal" data-bs-target="#modelComment" style="cursor: pointer;"><span class="fst-italic text-warning bg-light px-1 rounded-1"><i class="fa-brands fa-font-awesome"></i> report</span></div>
                 </div>
-                <form (ngSubmit)="addCommet()">
+                <form [formGroup]="comment" (ngSubmit)="addCommet()">
                   <div class="input_field position-relative mt-3">
                     <input type="text" name="comment" formControlName="comment" placeholder="Write your comment" class="w-100 p-2" required />
                     <input [disabled]="comment.invalid" class="btn-success position-absolute h-100" type="submit" value="send" style="right: 0;z-index: 222;"/>
@@ -92,7 +82,7 @@
           <!-- section 6  -->
 
           <div class="d-flex align-items-center justify-content-start gap-4">
-            <span><span class="fw-bold">Ends at</span> {{projectDetails?.end_campaign}}</span>
+            <span><span class="fw-bold">Ends at</span> {{projectDetails?.end_campaign|date}}</span>
           </div>
 
           <hr class="mb-5 mt-5" />
@@ -101,7 +91,7 @@
 
           <div class="mb-5 mt-5">
               <!-- Button trigger modal -->
-            <a href="http://" class="flag p-2"data-bs-toggle="modal" data-bs-target="#modelId">
+            <a class="flag p-2" data-bs-toggle="modal" data-bs-target="#modelId">
               <i class="fa-brands fa-font-awesome"></i> Report funraiser</a>
           </div>
         </div>
@@ -110,36 +100,16 @@
           <div class="card border-0 shadow sticky-top my-5">
             <div class="card-body">
               <div class="fs-6 text-black">
-                <span class="fs-4 fw-bold text-black">$137,760 </span
-                ><span class="text-black-50">USD raised of $750,000 goal</span>
+                <span class="fs-4 fw-bold text-black">Total target {{projectDetails?.total_target|currency}} goal</span>
               </div>
               <div class="progress mt-2" style="height: 5px">
                   <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="50"></div>
               </div>
-              <div class="mt-4">
-                <p>1.8K donations</p>
+              <div class="rate text-center mt-3">
+                <ngb-rating *ngIf="starRating" [max]="5" [(rate)]="starRating" style="font-size: 25px;" [readonly]="true" class="text-warning"></ngb-rating>
               </div>
-              <div class="card-buttons">
-
-                <button
-                  type="button"
-                  name=""
-                  id=""
-                  class="btn btn-warning p-2 d-block w-100"
-                >
-                  Donate On
-                </button>
-              </div>
-
-              <div class="d-flex align-items-center gap-2 mt-3">
-                <div
-                  class="d-flex align-items-center justify-content-center icon success"
-                >
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-                <div class="opacity-50">
-                  <span>46 people have just made a donation</span>
-                </div>
+              <div class="card-buttons mt-4">
+                <button type="button" name="" id="" class="btn btn-warning p-2 d-block w-100" data-bs-toggle="modal" data-bs-target="#donateModel">Donate On</button>
               </div>
             </div>
           </div>
@@ -150,10 +120,49 @@
     </div>
     <!-- End of Container -->
 
+<div class="main-head text-center my-5" *ngIf="similar">Similar Projects</div>
+<div class="container mb-5" *ngIf="similar">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center">
+          <div class="col-md-4 project-container" *ngFor="let project of similar;let i=index" [routerLink]="['/project/details', project.id]">
+              <div class="img-box mb-3">
+                <img class="img-fluid" [src]="'http://127.0.0.1:8000'+project.project.images[0].image" alt="project image" />
+              </div>
+              <h5>{{project.project.title}}</h5>
+              <p>{{project.project.details|seeMore:60}}</p>
+              <span class="fw-bold">By {{project.project.owner.first_name|titlecase}} {{project.project.owner.last_name|titlecase}}</span>
+          </div>
+    </div>
+  </div>
+</div>
 
 
 
-    <!-- Modal -->
+<!-- Donation Modal -->
+<div class="modal fade" id="donateModel" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Donation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="donation" (ngSubmit)="addDonation()">
+          <div class="mb-3">
+            <input formControlName="paid_up" type="number" class="form-control" name="paid_up" aria-describedby="helpId" placeholder=" Inter Your Donation...">
+          </div>
+          <div class="btns d-flex justify-content-end">
+            <button type="button" class="btn btn-secondary mx-3" data-bs-dismiss="modal">Close</button>
+            <button [disabled]="donation.invalid" type="sypmit" class="btn btn-danger">Donate</button>
+          </div>
+      </form>
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Report Modal -->
     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -162,40 +171,62 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="mb-3">
-              <input type="text"
-                class="form-control" name="name" id="name" aria-describedby="helpId" placeholder=" Your Name...">
-            </div>
-             <div class="row">
-               <div class="col-lg-4">
-                 <div class="">
-                   <select class="form-control" name="" id="">
-                     <option>Egypt</option>
-                     <option>Mansoura</option>
-                     <option>Zagzig</option>
-                   </select>
-                 </div>
-               </div>
-               <div class="col-lg-8">
-                <div class="mb-3">
-                  <input type="text"
-                    class="form-control" name="phone" id="phone" aria-describedby="helpId" placeholder=" Your Phone Number...">
-                </div>
-               </div>
-             </div>
-            <div class="mb-3">
-              <input type="text"
-                class="form-control" name="email" id="email" aria-describedby="helpId" placeholder=" Your Email...">
-            </div>
-            <div class="mb-3">
-              <input type="text"
-                class="form-control" name="email" id="email" aria-describedby="helpId" placeholder="Confirm Email...">
-            </div>
+            <form [formGroup]="projectReport" (ngSubmit)="addProjectReport()">
+              <div class="mb-3">
+                <textarea formControlName="reason" type="text" class="form-control" name="reason" id="name" aria-describedby="helpId" placeholder=" Your Report Reason..."></textarea>
+              </div>
+              <div class="btns d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary mx-3" data-bs-dismiss="modal">Close</button>
+                <button [disabled]="projectReport.invalid" type="sypmit" class="btn btn-danger">Report</button>
+              </div>
+          </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send Email</button>
+          </div>
+        </div>
+      </div>
+
+
+
+    <!--Comment Report Modal -->
+    <div class="modal fade" id="modelComment" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Report Comment</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="commentReport" (ngSubmit)="addCommentReport()">
+              <div class="mb-3">
+                <textarea formControlName="reason" type="text" class="form-control" name="reason" id="name" aria-describedby="helpId" placeholder=" Your Report Reason..."></textarea>
+              </div>
+              <div class="btns d-flex justify-content-end">
+                <button type="button" class="btn btn-secondary mx-3" data-bs-dismiss="modal">Close</button>
+                <button [disabled]="commentReport.invalid" type="sypmit" class="btn btn-danger">Report</button>
+              </div>
+          </form>
           </div>
         </div>
       </div>
     </div>
+
+
+
+<!--Rate Modal -->
+<div class="modal fade" id="rateModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Rating Project</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <ngb-rating  [max]="5" [(rate)]="sendRating" style="font-size: 30px;" [readonly]="false" class="text-warning mt-4"></ngb-rating>
+      </div>
+      <div class="btns d-flex justify-content-end p-4 mt-2">
+        <button type="button" class="btn btn-warning  mx-3" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" (click)="sendingRate()" >Send Rate</button>
+      </div>
+    </div>
+  </div>
+</div>

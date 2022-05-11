@@ -16,12 +16,31 @@ export class HomeComponent implements OnInit {
   topRatedProjectsArray:any;
   allProjectsArray:any;
   categories:any;
+  featuredProjectsArray:any;
   constructor(private toastr: ToastrService,private _home:HomeService,private _Router:Router) {
     this.latestProjects();
     this.topRatedProjects();
     this.getAllCategories();
+    this.getFeaturedProjects();
     this.allProjects();
   }
+
+  /* __________________________                __________________________ */
+  /* __________________________ Featured Projects __________________________ */
+  getFeaturedProjects(){
+    this._home.featuredProjects().subscribe((res)=>{
+    console.log(res.status);
+    if(res.status == 0){
+      this.message='There is no projects yet';
+    }
+    this.featuredProjectsArray=res.data;
+    console.log(this.featuredProjectsArray)
+
+  },
+  (error) => {
+    console.log(error.error)
+  })
+}
   /* __________________________                __________________________ */
   /* __________________________ LatestProjects __________________________ */
   latestProjects(){
@@ -127,13 +146,5 @@ config: SwiperOptions = {
     }
   }
 };
-
-
-/* ---------------------------Encode Data ---------------------------------- */
-
-navigateToDetails(_project: any){
-  let encoded =encodeURIComponent(JSON.stringify(_project))
-  this._Router.navigate(['/project/'+ encoded])
-}
 
 }

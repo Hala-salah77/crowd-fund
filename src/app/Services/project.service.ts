@@ -16,12 +16,22 @@ export class ProjectService {
   addComment(data:any):Observable<any>{
     return this._HttpClient.post(this.basUrl+'project/comment/add',data)
   };
+  addRate(data:any):Observable<any>{
+    return this._HttpClient.post(this.basUrl+'project/rate',data)
+  };
   getComments(data:any):Observable<any>{
     return this._HttpClient.get(this.basUrl+'project/comments/'+data)
   };
-
-projectReport(projectReport:any):Observable<any>{
-  return this._HttpClient.post(this.basUrl+'project/report',projectReport)
-};
-
+  getSimilarProjects(data:any):Observable<any>{
+    return this._HttpClient.get(this.basUrl+'project/search/tag/'+data)
+  };
+  projectReport(data:any):Observable<any>{
+    return this._HttpClient.post(this.basUrl+'project/report',data)
+  };
+  commentReport(data:any):Observable<any>{
+    return this._HttpClient.post(this.basUrl+'project/comment/report',data)
+  };
+  donate(data:any):Observable<any>{
+    return this._HttpClient.post(this.basUrl+'project/donate',data)
+  };
 }

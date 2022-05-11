@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 import { HomeService } from 'src/app/Services/home.service';
+import { ProfileService } from 'src/app/Services/profile.service';
 
 declare var $: any;
 @Component({
@@ -12,14 +13,16 @@ declare var $: any;
 export class NavbarComponent implements OnInit {
 
 
-  constructor(public _AuthService:AuthService,private _Router:Router,private _home:HomeService) {
+  constructor(public _AuthService:AuthService,private _Router:Router,private _home:HomeService,private _profile:ProfileService) {
     this.allProjects();
+    this.getAllProfileData();
   }
+  id=localStorage.getItem('id');
+  profileImage:any;
   term:any;
   searchProjectsArray:any;
   name=localStorage.getItem('name');
   closeSearch(){
-
     $(".search-bar").slideToggle(300);
     $(".fixed-layer").delay( 300 ).fadeOut();
   }
@@ -37,6 +40,20 @@ export class NavbarComponent implements OnInit {
   (error) => {
     console.log(error.error)
   })
+}
+
+/* ______________________                   ___________________
+__________________________ Get User Profile ____________________*/
+
+getAllProfileData(){
+  this._profile.getAllProfileData(this.id).subscribe((res)=>{
+  console.log(res.data);
+  this.profileImage=res.data.profile_image;
+  console.log(this.profileImage);
+},
+(error) => {
+  console.log(error.error)
+})
 }
   logout(){
     localStorage.clear();

@@ -1,20 +1,19 @@
 <app-header></app-header>
 
-<div class="main-head text-center my-5">Top Rated</div>
-<div class="container mb-5">
+<div class="main-head text-center my-5" *ngIf="featuredProjectsArray">Featured Projects</div>
+<div class="container mb-5" *ngIf="featuredProjectsArray">
   <div class="container d-flex justify-content-center align-items-center">
     <div class="row">
       <swiper [config]="config">
         <div class="swiper-wrapper container">
-          <div (click)="navigateToDetails(project)" class="swiper-slide project-container" *ngFor="let project of topRatedProjectsArray;let i=index">
+          <div class="swiper-slide project-container" *ngFor="let project of featuredProjectsArray;let i=index" [routerLink]="['/project/details', project.id]">
               <div class="img-box mb-3">
-                <img class="img-fluid" [src]="'http://127.0.0.1:8000'+project.images[0]" alt="project image" />
+                <img class="img-fluid" [src]="'http://127.0.0.1:8000'+project.images[0].image" alt="project image" />
               </div>
               <h5>{{project.title}}</h5>
               <p>{{project.details|seeMore:100}}</p>
               <span class="fw-bold">By {{project.owner.first_name|titlecase}} {{project.owner.last_name|titlecase}}</span>
           </div>
-
         </div>
         <div class="swiper-pagination"></div>
         <div class="swiper-button-next"></div>
@@ -22,8 +21,30 @@
       </swiper>
     </div>
   </div>
+</div>
 
 
+<div class="main-head text-center my-5">Top Rated</div>
+<div class="container mb-5">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="row">
+      <swiper [config]="config">
+        <div class="swiper-wrapper container">
+          <div class="swiper-slide project-container" *ngFor="let project of topRatedProjectsArray;let i=index" [routerLink]="['/project/details', project.id]">
+              <div class="img-box mb-3">
+                <img class="img-fluid" [src]="'http://127.0.0.1:8000'+project.images[0].image" alt="project image" />
+              </div>
+              <h5>{{project.title}}</h5>
+              <p>{{project.details|seeMore:100}}</p>
+              <span class="fw-bold">By {{project.owner.first_name|titlecase}} {{project.owner.last_name|titlecase}}</span>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </swiper>
+    </div>
+  </div>
 </div>
 
 
@@ -33,15 +54,14 @@
     <div class="row">
       <swiper [config]="config">
         <div class="swiper-wrapper container">
-          <div   class="swiper-slide project-container" *ngFor="let project of latestProjectsArray;let i=index">
+          <div   class="swiper-slide project-container" *ngFor="let project of latestProjectsArray;let i=index" [routerLink]="['/project/details', project.id]">
               <div class="img-box mb-3">
-                <img class="img-fluid" [src]="'http://127.0.0.1:8000'+project.images[0]" alt="project image" />
+                <img class="img-fluid" [src]="'http://127.0.0.1:8000'+project.images[0].image" alt="project image" />
               </div>
               <h5>{{project.title}}</h5>
               <p>{{project.details|seeMore:100}}</p>
               <span class="fw-bold">By {{project.owner.first_name|titlecase}} {{project.owner.last_name|titlecase}}</span>
           </div>
-
         </div>
         <div class="swiper-pagination"></div>
         <div class="swiper-button-next"></div>
@@ -63,7 +83,7 @@
           <div  class="col-md-4 menu-content {{project.category.name}} all mb-5" *ngFor="let project of allProjectsArray;let i=index" [routerLink]="['/project/details', project.id]">
               <div>
                   <div class="img-box">
-                    <img [src]="'http://127.0.0.1:8000'+project.images[0]" alt="project image" class="img-fluid ">
+                    <img [src]="'http://127.0.0.1:8000'+project.images[0].image" alt="project image" class="img-fluid ">
                   </div>
                   <div class="box">
                       <h5 class="title my-3">{{project.title}}</h5>

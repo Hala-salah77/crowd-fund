@@ -125,6 +125,7 @@ addingProject(){
     this.addProject.reset();
     $(".btn-close").click();
     this.getAllProjects();
+    this.message='';
 
   },
   (error) => {

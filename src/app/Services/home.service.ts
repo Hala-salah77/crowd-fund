@@ -12,6 +12,9 @@ export class HomeService {
   latestProjects():Observable<any>{
     return this._HttpClient.get(this.basUrl+'project/latest')
   };
+  featuredProjects():Observable<any>{
+    return this._HttpClient.get(this.basUrl+'project/latestAdminSelected')
+  };
   topRatedProjects():Observable<any>{
     return this._HttpClient.get(this.basUrl+'project/highestRate')
   };
