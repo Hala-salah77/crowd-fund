@@ -25,7 +25,9 @@ import { UserProjectsComponent } from './Components/user-projects/user-projects.
 import { SearchPipe } from './search.pipe';
 import {AuthInterceptorService} from './Services/auth.interceptor'
 import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbRatingModule} from '@ng-bootstrap/ng-bootstrap';
+//import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +46,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MyDonationsComponent,
     UserProjectsComponent,
     ProjectDetailsComponent,
-    SearchPipe
+    SearchPipe,
   ],
   imports: [
     BrowserModule,
@@ -54,8 +56,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     HttpClientModule,
     CommonModule,
+    NgbRatingModule,
+    //MatProgressBarModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(), NgbModule, // ToastrModule added
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [
     {

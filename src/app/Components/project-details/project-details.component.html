@@ -102,8 +102,8 @@
               <div class="fs-6 text-black">
                 <span class="fs-4 fw-bold text-black">Total target {{projectDetails?.total_target|currency}} goal</span>
               </div>
-              <div class="progress mt-2" style="height: 5px">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="50"></div>
+              <div class="progress my-4" style="height: 5px">
+                <div class="progress-bar bg-success" role="progressbar" [style.width]="progress+'%'"  aria-valuemin="0" aria-valuemax="50"></div>
               </div>
               <div class="rate text-center mt-3">
                 <ngb-rating *ngIf="starRating" [max]="5" [(rate)]="starRating" style="font-size: 25px;" [readonly]="true" class="text-warning"></ngb-rating>

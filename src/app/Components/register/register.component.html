@@ -3,6 +3,9 @@
     <div class="title_container">
       <h2 class="main-head">Responsive Registration Form</h2>
     </div>
+    <div *ngIf="emailMessages" class="alert-danger text-center p-2">{{emailMessages}}</div>
+    <div *ngIf="firstNameMessages" class="alert-danger text-center p-2">{{firstNameMessages}}</div>
+    <div *ngIf="lastNameMessages" class="alert-danger text-center p-2">{{lastNameMessages}}</div>
     <div class="row clearfix">
       <div class="">
         <form [formGroup]='registerForm' (ngSubmit)="getRegistered()" nctype="multipart/form-data">

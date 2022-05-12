@@ -10,7 +10,11 @@ declare var $: any;
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  erroreMessages:any;
+
+  emailMessages:any;
+  firstNameMessages:any;
+  lastNameMessages:any;
+
   constructor(private toastr: ToastrService,private _AuthService:AuthService,private _Router:Router) { }
 
   registerForm:FormGroup=new FormGroup({
@@ -55,9 +59,10 @@ getRegistered() {
         this._Router.navigate(['/login']);
       },
       (error) => {
-        this.erroreMessages=error.error.message_error[0]
-        console.log(this.erroreMessages)
-        console.log(error.error)
+        this.emailMessages=error.error.message_error.email[0];
+        this.firstNameMessages=error.error.message_error.first_name[0];
+        this.lastNameMessages=error.error.message_error.last_name[0];
+        console.log(this.emailMessages);
       })
 
 }

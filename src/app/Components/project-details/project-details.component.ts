@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from 'src/app/Services/project.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { SwiperOptions } from 'swiper';
+
 declare var $: any;
 @Component({
   selector: 'app-project-details',
@@ -19,8 +20,8 @@ comments:any;
 tag:any;
 similar:any;
 commentId:any;
-
-  constructor(private _Activatedroute: ActivatedRoute,private _ProjectService:ProjectService,private toastr: ToastrService) {
+progress:number=0;
+  constructor(private _Activatedroute: ActivatedRoute,private _ProjectService:ProjectService,private toastr: ToastrService ,private _Router:Router) {
     this.id=this._Activatedroute.snapshot.paramMap.get("id");
     console.log(this.id);
     this.getProjectDetails();
@@ -43,6 +44,9 @@ commentId:any;
 
   showSuccess(msg:any,title:any) {
     this.toastr.success(msg, title);
+  }
+  showFaile(msg:any,title:any) {
+    this.toastr.error(msg, title);
   }
 
   addCommet(){
@@ -89,30 +93,42 @@ commentId:any;
       //this.errorMessage=error.error.message_error;
     })
   }
-  addDonation(){
-    let userId:any=localStorage.getItem('id');
-    let dollar:number=this.donation.get('paid_up')?.value;
 
-    let data={
-      "paid_up": dollar,
-      "user":userId,
-      "project":this.id
-    }
-    this._ProjectService.donate(data).subscribe((res)=>{
-      if(res.status == 1){
-        console.log(res.data);
-        this.showSuccess('Donation Added Successfully',"Donation");
+  addDonation(){
+    let token=localStorage.getItem('token');
+    if(token){
+      let userId:any=localStorage.getItem('id');
+      let dollar:number=this.donation.get('paid_up')?.value;
+
+      let data={
+        "paid_up": dollar,
+        "user":userId,
+        "project":this.id
+      }
+      this._ProjectService.donate(data).subscribe((res)=>{
+        if(res.status == 1){
+          console.log(res.data);
+          this.showSuccess('Donation Added Successfully',"Donation");
+          $(".btn-close").click();
+          this.getProjectDetails();
+        }
+        else {
+          console.log("response "+res.message_error);
+        }
+      },
+      (error) => {
+        //this.errorMessage=error.error.message_error;
+      })
+      }
+      else{
+        this.showFaile('Please Login first before Donation',"Donation");
         $(".btn-close").click();
-        this.getProjectDetails();
+        this._Router.navigate(['/login']);
       }
-      else {
-        console.log("response "+res.message_error);
-      }
-    },
-    (error) => {
-      //this.errorMessage=error.error.message_error;
-    })
+
+
   }
+
   getCommentId(id:any){
     this.commentId=id;
   }
@@ -177,7 +193,8 @@ getProjectDetails(){
   console.log(this.starRating);
   console.log(this.tag);
   this.getSimilarProjects(this.tag);
-  console.log("____________________")
+  this.progress=(res.data.total_target-res.data.current_donation)/100;
+  console.log(this.progress)
 },
 (error) => {
   console.log(error.error)
