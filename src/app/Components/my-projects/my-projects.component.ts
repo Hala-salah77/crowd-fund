@@ -150,6 +150,14 @@ addingProject(){
 
 
   ngOnInit(): void {
+    let button:any = document.querySelector(".plus-button");
+    let menu:any=document.querySelector(".menu");
+    button.querySelector(".button").addEventListener("click", (e:any) => {
+      button.classList.toggle("is-active");
+    });
+    menu.addEventListener("click", (e:any) => {
+      button.classList.toggle("is-active");
+    });
 
   }
 /* -------------------------------------------------------------------------- */

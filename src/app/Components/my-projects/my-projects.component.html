@@ -1,5 +1,15 @@
-<i class="fa-solid fa-circle-plus position-absolute " data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i>
-<div class="container">
+<div class="plus-button">
+  <span class="button">
+    <svg class="arrow arrow-left" viewBox="0 0 448 448">
+      <path d="M272 176H32c-18 0-32 14-32 32v32c0 18 14 32 32 32h144v144c0 18 14 32 32 32h32c18 0 32-14 32-32V176z" />
+    </svg>
+    <svg class="arrow arrow-right" viewBox="0 0 448 448">
+      <path d="M176 272h240c18 0 32-14 32-32v-32c0-18-14-32-32-32H272V32c0-18-14-32-32-32h-32c-18 0-32 14-32 32v240z" />
+    </svg>
+  </span>
+  <span class="menu" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="cursor: pointer;">Add New Project</span>
+</div>
+<!-- <i class="fa-solid fa-circle-plus position-absolute " data-bs-toggle="modal" data-bs-target="#staticBackdrop"></i>--><div class="container">
   <div class="row my-5 justify-content-center align-items-center">
     <p *ngIf=" message" class="fw-bold my-5 text-center text-danger" style="height: 50vh;">{{message}}</p>
     <div class="col-md-4 my-5 project-container" *ngFor="let project of userProjects;let i=index" [routerLink]="['/myproject/details/', project.id]">
