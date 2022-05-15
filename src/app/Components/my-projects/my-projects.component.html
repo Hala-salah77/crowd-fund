@@ -37,6 +37,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <p class="alert-danger text-center py-2" *ngIf="addProjectErrorMessage">{{addProjectErrorMessage}}</p>
         <form class="row g-3" [formGroup]="addProject" (ngSubmit)="addingProject()" nctype="multipart/form-data">
           <input type="text" hidden>
           <div class="col-md-6">

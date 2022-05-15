@@ -18,6 +18,7 @@ export class MyProjectsComponent implements OnInit {
   userProjects:any;
   cancleValue:boolean=false;
   imagesLength :number=0;
+  addProjectErrorMessage='';
   constructor(private toastr: ToastrService,private _profile:ProfileService,private _Router:Router,private _home:HomeService) {
     this.getAllProjects();
     this.getAllCategories();
@@ -143,6 +144,7 @@ addingProject(){
 
   },
   (error) => {
+    this.addProjectErrorMessage=error.error.errors.total_target;
     console.log(error.error)
   })
 
