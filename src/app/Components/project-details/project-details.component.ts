@@ -11,7 +11,7 @@ declare var $: any;
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.css']
 })
-export class ProjectDetailsComponent implements OnInit, OnChanges{
+export class ProjectDetailsComponent implements OnInit{
 starRating=0;
 sendRating=0;
 id:any=this._Activatedroute.snapshot.params["id"];
@@ -26,10 +26,6 @@ progress:number=0;
     console.log(this.id);
     this.getProjectDetails();
     this.getAllComments();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-
   }
 
   comment:FormGroup=new FormGroup({
@@ -54,48 +50,67 @@ progress:number=0;
   }
 
   addCommet(){
-    let userId:any=localStorage.getItem('id');
-    const formData = new FormData();
-    formData.append( "comment", this.comment.get('comment')?.value );
-    formData.append( "user",userId);
-    formData.append( "project",this.id);
-    console.log(formData);
-    this._ProjectService.addComment(formData).subscribe((res)=>{
-      if(res.status == 1){
-        console.log(res.data);
-        this.showSuccess('Comment Added Successfully',"Comment");
-        this.comment.reset();
-        this.getAllComments();
+    let token=localStorage.getItem('token');
+    if(token){
+        let userId:any=localStorage.getItem('id');
+        const formData = new FormData();
+        formData.append( "comment", this.comment.get('comment')?.value );
+        formData.append( "user",userId);
+        formData.append( "project",this.id);
+        console.log(formData);
+        this._ProjectService.addComment(formData).subscribe((res)=>{
+          if(res.status == 1){
+            console.log(res.data);
+            this.showSuccess('Comment Added Successfully',"Comment");
+            this.comment.reset();
+            this.getAllComments();
+          }
+          else {
+            console.log("response "+res.message_error);
+          }
+        },
+        (error) => {
+          //this.errorMessage=error.error.message_error;
+        })
       }
-      else {
-        console.log("response "+res.message_error);
+      else{
+        this.showFaile('Please Login first before Writting your Comment',"Comment");
+      $(".btn-close").click();
+      this._Router.navigate(['/login']);
       }
-    },
-    (error) => {
-      //this.errorMessage=error.error.message_error;
-    })
+
   }
 
   addProjectReport(){
-    let userId:any=localStorage.getItem('id');
-    const formData = new FormData();
-    formData.append( "reason", this.projectReport.get('reason')?.value );
-    formData.append( "user",userId);
-    formData.append( "project",this.id);
-    console.log(formData);
-    this._ProjectService.projectReport(formData).subscribe((res)=>{
-      if(res.status == 1){
-        console.log(res.data);
-        this.showSuccess('Report Added Successfully',"Report");
-        $(".btn-close").click();
-      }
-      else {
-        console.log("response "+res.message_error);
-      }
-    },
-    (error) => {
-      //this.errorMessage=error.error.message_error;
-    })
+    let token=localStorage.getItem('token');
+    if(token){
+      let userId:any=localStorage.getItem('id');
+      const formData = new FormData();
+      formData.append( "reason", this.projectReport.get('reason')?.value );
+      formData.append( "user",userId);
+      formData.append( "project",this.id);
+      console.log(formData);
+      this._ProjectService.projectReport(formData).subscribe((res)=>{
+        if(res.status == 1){
+          console.log(res.data);
+          this.showSuccess('Report Added Successfully',"Report");
+          $(".btn-close").click();
+        }
+        else {
+          console.log("response "+res.message_error);
+        }
+      },
+      (error) => {
+        //this.errorMessage=error.error.message_error;
+      })
+    }
+    else{
+      this.showFaile('Please Login first before Reporting',"Reporting");
+      $(".btn-close").click();
+      this._Router.navigate(['/login']);
+    }
+
+
   }
 
   addDonation(){
@@ -103,7 +118,6 @@ progress:number=0;
     if(token){
       let userId:any=localStorage.getItem('id');
       let dollar:number=this.donation.get('paid_up')?.value;
-
       let data={
         "paid_up": dollar,
         "user":userId,
@@ -138,49 +152,67 @@ progress:number=0;
   }
 
   addCommentReport(){
-    let userId:any=localStorage.getItem('id');
-    const formData = new FormData();
-    formData.append( "reason", this.commentReport.get('reason')?.value );
-    formData.append( "user",userId);
-    formData.append( "comment",this.commentId);
-    console.log(formData);
-    this._ProjectService.commentReport(formData).subscribe((res)=>{
-      if(res.status == 1){
-        this.commentReport.reset();
-        this.showSuccess('Report Added Successfully',"Report");
-        $(".btn-close").click();
-      }
-      else {
-        console.log("response "+res.message_error);
-      }
-    },
-    (error) => {
-      //this.errorMessage=error.error.message_error;
-    })
+    let token=localStorage.getItem('token');
+    if(token){
+        let userId:any=localStorage.getItem('id');
+        const formData = new FormData();
+        formData.append( "reason", this.commentReport.get('reason')?.value );
+        formData.append( "user",userId);
+        formData.append( "comment",this.commentId);
+        console.log(formData);
+        this._ProjectService.commentReport(formData).subscribe((res)=>{
+          if(res.status == 1){
+            this.commentReport.reset();
+            this.showSuccess('Report Added Successfully',"Report");
+            $(".btn-close").click();
+          }
+          else {
+            console.log("response "+res.message_error);
+          }
+        },
+        (error) => {
+          //this.errorMessage=error.error.message_error;
+        })
+    }
+    else{
+      this.showFaile('Please Login first before Report This Comment',"Report");
+      $(".btn-close").click();
+      this._Router.navigate(['/login']);
+    }
+
   }
 
 
   sendingRate(){
-    let data={
-      rate:this.sendRating,
-      project:this.id,
-      user:localStorage.getItem('id')
+    let token=localStorage.getItem('token');
+    if(token){
+      let data={
+        rate:this.sendRating,
+        project:this.id,
+        user:localStorage.getItem('id')
+      }
+      console.log(data);
+      this._ProjectService.addRate(data).subscribe((res)=>{
+        if(res.status == 1){
+          console.log(res.data);
+          $(".btn-close").click();
+          this.showSuccess('Rate Added Successfully',"Rating");
+          this.getProjectDetails();
+        }
+        else {
+          console.log("response "+res.message_error);
+        }
+      },
+      (error) => {
+        //this.errorMessage=error.error.message_error;
+      })
     }
-    console.log(data);
-    this._ProjectService.addRate(data).subscribe((res)=>{
-      if(res.status == 1){
-        console.log(res.data);
-        $(".btn-close").click();
-        this.showSuccess('Rate Added Successfully',"Rating");
-        this.getProjectDetails();
-      }
-      else {
-        console.log("response "+res.message_error);
-      }
-    },
-    (error) => {
-      //this.errorMessage=error.error.message_error;
-    })
+    else{
+      this.showFaile('Please Login first before Rate this project',"Rating");
+      $(".btn-close").click();
+      this._Router.navigate(['/login']);
+    }
+
 
   }
 
