@@ -43,12 +43,13 @@ header .header-img{
 }
 
 header i{
-  font-size: 25px;
-  background: #f5ba1a;
-  color: #232d4b;
-  opacity: 1;
-  padding: 2px;
-  border-radius: 3px;
+    border-radius: 50%;
+    font-size: 25px;
+    background: #f5ba1a;
+    color: #232d4b;
+    opacity: 1;
+    width: 25px;
+    height: 25px;
 }
 
 #started{
