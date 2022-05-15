@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(public _AuthService:AuthService,private _Router:Router,private _home:HomeService,private _profile:ProfileService) {
     this.allProjects();
-    this.getAllProfileData();
+
   }
   id=localStorage.getItem('id');
   profileImage:any;
@@ -61,6 +61,7 @@ getAllProfileData(){
     this._Router.navigate(['/login'])
   }
   ngOnInit(): void {
+    this.getAllProfileData();
     $(".nav-toggle").click(function () {
       $(".nav-toggle .dropdown-menu").slideToggle(300);
 

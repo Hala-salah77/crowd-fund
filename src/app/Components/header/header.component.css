@@ -44,9 +44,11 @@ header .header-img{
 
 header i{
   font-size: 25px;
-  /* color: var(--main); */
-  /* background-color: var(--sec);
-  padding: 5px; */
+  background: #f5ba1a;
+  color: #232d4b;
+  opacity: 1;
+  padding: 2px;
+  border-radius: 3px;
 }
 
 #started{
