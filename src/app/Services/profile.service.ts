@@ -26,4 +26,7 @@ basUrl='http://127.0.0.1:8000/';
   deleteProfile(id:any):Observable<any>{
     return this._HttpClient.delete(this.basUrl+'user/delete/'+id)
   };
+  cancleProject(id:any):Observable<any>{
+    return this._HttpClient.delete(this.basUrl+'project/cancel/'+id)
+  };
 }

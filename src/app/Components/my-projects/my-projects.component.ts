@@ -16,11 +16,13 @@ export class MyProjectsComponent implements OnInit {
   message:any;
   categories:any;
   userProjects:any;
-  images : string[] = [];
+  cancleValue:boolean=false;
+  imagesLength :number=0;
   constructor(private toastr: ToastrService,private _profile:ProfileService,private _Router:Router,private _home:HomeService) {
     this.getAllProjects();
     this.getAllCategories();
   }
+
 
   getAllCategories(){
     this._home.getAllCategories().subscribe((res)=>{
@@ -31,22 +33,27 @@ export class MyProjectsComponent implements OnInit {
     }
     this.categories=res.data;
     console.log(this.categories)
-
   },
   (error) => {
     console.log(error.error)
   })
   }
+
   getAllProjects(){
     this._profile.getAllProjects(this.id).subscribe((res)=>{
     console.log(res);
     console.log(res.status);
+    if(res.current_donation <  res.total_target/4)
+        {
+          this.cancleValue=true;
+          console.log(this.cancleValue);
+        }
+
     if(res.status == 0){
       this.message='There is no projects yet';
     }
     this.userProjects=res.data;
     console.log(this.userProjects)
-
   },
   (error) => {
     console.log(error.error)
@@ -77,13 +84,18 @@ addProject=new FormGroup({
 onFileSelect(event:any) {
   if (event.target.files && event.target.files[0]) {
     var filesAmount = event.target.files.length;
+    this.imagesLength=filesAmount;
+    console.log(this.imagesLength);
     for (let i = 0; i < filesAmount; i++) {
-        const file = event.target?.files[0];
-        this.addProject.get('images')?.setValue(file);console.log(file)
+        const file = event.target?.files[i];
+        this.addProject.get('images')?.setValue(file);
+        console.log(file)
       }
-
   }
 }
+
+
+
 
 
 
@@ -93,22 +105,24 @@ onFileSelect(event:any) {
     for (let i = 0; i < filesAmount; i++) {
       var reader=new FileReader();
       reader.readAsDataURL(event.target?.files[i])
-       reader.onload=(events:any)=>{
-         this.images.push(events.target.result);
-       }
+      reader.onload=(events:any)=>{
+        this.images.push(events.target.result);
+      }
       }
   }
   console.log(this.images)
 } */
 
-
-
 addingProject(){
-  //let imgs:any=this.images
+  let len:any=this.imagesLength
   let userId:any=localStorage.getItem('id');
   console.log(this.addProject.value)
   const formData = new FormData();
-  formData.append('images', this.addProject.get('images')?.value);
+  for(let index=0;index <len;index++){
+    formData.append('images', this.addProject.get('images')?.value);
+    //formData.append('images', imgs[index]);
+  }
+
   //formData.append('images', imgs);
   formData.append( "title", this.addProject.get('title')?.value );
   formData.append( "details", this.addProject.get('details')?.value );
@@ -136,11 +150,11 @@ addingProject(){
 
 
   ngOnInit(): void {
+
   }
 /* -------------------------------------------------------------------------- */
   navigateToProject(_project: any){
     console.log(_project);
-
     this._Router.navigate(['/project', _project])
   }
 

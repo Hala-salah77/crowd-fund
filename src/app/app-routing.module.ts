@@ -19,6 +19,7 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'register',component:RegisterComponent},
   {path:'project/details/:id',component:ProjectDetailsComponent},
+  {path:'myproject/details/:id',component:ProjectComponent},
   {path:'profile',canActivate:[AuthGuard],component:ProfileComponent},
   {path:'profile/myprojects',canActivate:[AuthGuard],component:MyProjectsComponent},
   {path:'profile/mydonations',canActivate:[AuthGuard],component:MyDonationsComponent},

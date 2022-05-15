@@ -23,11 +23,36 @@ header .hero-headline{
   transform-origin: 100%;
 }
 header .header-img{
-  background-image: url(../../../assets/header.webp);
+  overflow: hidden;
   height: 80%;
   width: 90%;
   border-radius: .25rem;
   background-position:bottom;
   background-size: cover;
   background-repeat: no-repeat;
+}
+.header-img .carousel{
+  width: 100% !important;
+  height: 100% !important;
+}
+.header-img.carousel-inner,
+.header-img .carousel-item,
+.header-img img{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+header i{
+  font-size: 25px;
+  /* color: var(--main); */
+  /* background-color: var(--sec);
+  padding: 5px; */
+}
+
+#started{
+  transition: all .4s ease-in-out;
+}
+
+#started:hover{
+  font-weight: bold;
 }

@@ -3,171 +3,76 @@
       <div class="row">
         <div class="col-lg-8">
           <!-- section 1 -->
-          <h2 class="mb-4">{{project.title}}</h2>
-          <img src={{project.image}} class="cover-image mb-4" alt="" />
-<!-- ../../../assets/handsTogether.png"  -->
-          <!-- <div class="d-flex align-items-center justify-content-start gap-4">
+          <h2 class="mb-4">{{projectDetails?.title}}</h2>
+          <img [src]="'http://127.0.0.1:8000'+projectDetails?.images[0].image" class="cover-image mb-4" alt="" />
+
+          <div class="d-flex align-items-center justify-content-start gap-4">
             <div
               class="d-flex align-items-center justify-content-center icon success"
             >
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
 
-            <span>Leonid Volkov is organizing this fundraiser.</span>
-          </div> -->
+            <span class="fw-bold">You is organizing this fundraiser.</span>
+          </div>
           <hr class="mb-4" />
           <!-- section 2 -->
           <div>
-            <h3 class="mb-3">
-               Project Details
-            </h3>
-            <p class="fs-4">
-              {{project.details}}
+            <h6 class="mb-3">
+              Help Alexei Navalny’s team spread the truth about Russia’s war and
+              Putin’s corruption
+            </h6>
+            <p class="fs-6">
+              {{projectDetails?.details}}
             </p>
-            <br />
           </div>
-
-          <!-- section 3 -->
-          <div class="d-flex gap-3 mb-5 mt-5">
-            <button
-              type="button"
-              name=""
-              id=""
-              class="btn btn-warning col p-2 donante col"
-            >
-              Donate
-            </button>
-
-          </div>
-          <hr class="mb-4" />
-
-          <!-- section 4 -->
+          <!--Comments section  -->
           <div class="mb-5">
-            <h2 class="mb-5 mt-5">Owner</h2>
-
+            <h3 class="mb-5 mt-5">Comments</h3>
+            <span class="text-danger" *ngIf="commentMessage">{{commentMessage}}</span>
             <div class="d-flex align-items-start gap-4">
-              <div
-                class="d-flex align-items-center justify-content-center icon success"
-              >
-              <i class="fa fa-user" aria-hidden="true"></i>
-              </div>
-              <div>
-                <p>{{project.owner.first_name}}{{project.owner.last_name}}</p>
-                <p>{{project.owner.mobile_phone}}</p>
-                <p>{{project.owner.country}}</p>
-                <!-- <button
-                  type="button"
-                  name=""
-                  id=""
-                  class="btn btn-outline-success px-4"
-                >
-                  Contact
-                </button> -->
+              <div class="col-12">
+                <div class="d-flex justify-content-between" *ngFor="let comment of comments">
+                  <div>
+                    <div class="d-flex align-items-center justify-content-center icon success">
+                      <img [src]="'http://127.0.0.1:8000'+comment?.user.profile_image" alt="user image" class="img-fluid">
+                    </div>
+                    <div class="comment px-2">
+                      <p class="fw-bold">{{comment?.user.first_name}} {{comment?.user.last_name}}</p>
+                      <p>
+                        {{comment?.comment}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <hr class="mb-4" />
-
-          <!-- section 4 -->
-          <div class="mb-5">
-            <h2 class="mb-5 mt-5">Comments</h2>
-
-            <div class="d-flex align-items-start gap-4">
-              <div
-                class="d-flex align-items-center justify-content-center icon success"
-              >
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </div>
-              <div class="col">
-                <p>Anna Riegel</p>
-                <p>
-                  Jeder kann mehr tun als nur zusehen, was in Russland aktuell
-                  passiert und einfach Mitleid zeigen. Es betrifft jeden
-                  Menschen, für den „Menschenrechte“ nicht nur ein leeres Wort
-                  ist.
-                </p>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              name=""
-              id=""
-              class="btn btn-outline-success px-4 mt-3"
-            >
-              Show Me
-            </button>
           </div>
           <hr class="mb-5 mt-5" />
 
-          <!-- section 6  -->
-
+          <!-- Date section -->
           <div class="d-flex align-items-center justify-content-start gap-4">
-            <span>{{project.created_at}}</span>
-          </div>
-
-          <hr class="mb-5 mt-5" />
-
-          <!-- section 7  -->
-
-          <div class="mb-5 mt-5">
-              <!-- Button trigger modal -->
-            <a href="http://" class="flag p-2"data-bs-toggle="modal" data-bs-target="#modelId">
-              <i class="fa-brands fa-font-awesome"></i> Report funraiser</a>
+            <span><span class="fw-bold">Ends at</span> {{projectDetails?.end_campaign|date}}</span>
           </div>
         </div>
-        <!-- End of col-lg-8 -->
-
+        <!-- Donation Sticky Section  -->
         <div class="col-lg-4">
           <div class="card border-0 shadow sticky-top my-5">
             <div class="card-body">
               <div class="fs-6 text-black">
-                <span class="fs-4 fw-bold text-black">$137,760 </span
-                ><span class="text-black-50">USD raised of $750,000 goal</span>
+                <span class="fs-4 fw-bold text-black">Total target {{projectDetails?.total_target|currency}} goal</span>
               </div>
-              <div class="progress mt-2" style="height: 5px">
-                <div
-                  class="progress-bar bg-success"
-                  role="progressbar"
-                  style="width: 25%"
-                  aria-valuenow="25"
-                  aria-valuemin="0"
-                  aria-valuemax="50"
-                ></div>
+              <div class="progress my-4" style="height: 5px">
+                <div class="progress-bar bg-success" role="progressbar" [style.width]="progress+'%'"  aria-valuemin="0" aria-valuemax="50"></div>
               </div>
-
-              <div class="mt-4">
-                <p>1.8K donations</p>
+              <div class="rate text-center mt-3">
+                <ngb-rating *ngIf="starRating" [max]="5" [(rate)]="starRating" style="font-size: 25px;" [readonly]="true" class="text-warning"></ngb-rating>
               </div>
-              <div class="card-buttons">
-
-                <button
-                  type="button"
-                  name=""
-                  id=""
-                  class="btn btn-warning p-2 d-block w-100"
-                >
-                  Donate On
-                </button>
+              <div class="card-buttons mt-4">
+                <button (click)="getId(projectDetails.id)" data-bs-toggle="modal" data-bs-target="#cancelModal" *ngIf="projectDetails?.current_donation <  projectDetails?.total_target/4" class="btn btn-outline-danger d-block mt-4 w-100">Cancel Project <i class="fa-solid fa-trash-can mx-2"></i></button>
               </div>
-
-              <div class="d-flex align-items-center gap-2 mt-3">
-                <div
-                  class="d-flex align-items-center justify-content-center icon success"
-                >
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-                <div class="opacity-50">
-                  <span>46 people have just made a donation</span>
-                </div>
-              </div>
-
             </div>
-
           </div>
-
-          <div></div>
         </div>
         <!-- End of col-lg-4 -->
       </div>
@@ -175,74 +80,26 @@
     </div>
     <!-- End of Container -->
 
-
-
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Report a fundraiser</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-
-
-
-
-            <textarea id="w3review" name="w3review" rows="4" cols="50">
-
-              </textarea>
-
-            <!-- <div class="mb-3">
-              <input type="text"
-                class="form-control" name="name" id="name" aria-describedby="helpId" placeholder=" Your Name...">
-            </div> -->
-
-             <!-- <div class="row">
-               <div class="col-lg-4">
-                 <div class="">
-                   <select class="form-control" name="" id="">
-                     <option>Egypt</option>
-                     <option>Mansoura</option>
-                     <option>Zagzig</option>
-                   </select>
-                 </div>
-               </div>
-               <div class="col-lg-8">
-                <div class="mb-3">
-                  <input type="text"
-                    class="form-control" name="phone" id="phone" aria-describedby="helpId" placeholder=" Your Phone Number...">
-                </div>
-               </div>
-             </div>
-            <div class="mb-3">
-              <input type="text"
-                class="form-control" name="email" id="email" aria-describedby="helpId" placeholder=" Your Email...">
-            </div>
-
-            <div class="mb-3">
-              <input type="text"
-                class="form-control" name="email" id="email" aria-describedby="helpId" placeholder="Confirm Email...">
-            </div> -->
-
-          </div>
-
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send Email</button>
-          </div>
-
+    <!-- Delete Modal  -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom: none;">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex justify-content-center align-items-center">
+        <div class="text-center">
+          <img src="../../../assets/crying-emoji-35.gif" alt="" width="100px;">
+          <p class="mt-3">Are your shure you want to leave !?</p>
         </div>
       </div>
+      <div class="modal-footer d-flex justify-content-center align-items-center">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" (click)="cancleProject()">Yes</button>
+      </div>
     </div>
+  </div>
+</div>
 
 
-
-
-
-
-<app-footer></app-footer>
+    <app-footer></app-footer>

@@ -10,6 +10,9 @@ body{
 h1,h2,h3,h4,h5,h6{
   color:var(--main);
 }
+.mat-typography h5 {
+  font: 400 calc(27px * 0.83)/20px Roboto, "Helvetica Neue", sans-serif !important;
+}
 .dropdown-item.active,
 .dropdown-item:active {
   background-color: transparent !important;
@@ -68,3 +71,6 @@ button:focus,button:active{
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.swiper-wrapper {
+  height: auto !important;
+}

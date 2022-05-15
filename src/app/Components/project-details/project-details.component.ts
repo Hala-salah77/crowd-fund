@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , OnChanges, SimpleChanges, Input} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from 'src/app/Services/project.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,10 +11,10 @@ declare var $: any;
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.css']
 })
-export class ProjectDetailsComponent implements OnInit {
+export class ProjectDetailsComponent implements OnInit, OnChanges{
 starRating=0;
 sendRating=0;
-id:any;
+id:any=this._Activatedroute.snapshot.params["id"];
 projectDetails:any;
 comments:any;
 tag:any;
@@ -22,10 +22,14 @@ similar:any;
 commentId:any;
 progress:number=0;
   constructor(private _Activatedroute: ActivatedRoute,private _ProjectService:ProjectService,private toastr: ToastrService ,private _Router:Router) {
-    this.id=this._Activatedroute.snapshot.paramMap.get("id");
+    this.id=this._Activatedroute.snapshot.params["id"];
     console.log(this.id);
     this.getProjectDetails();
     this.getAllComments();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
   }
 
   comment:FormGroup=new FormGroup({
@@ -193,7 +197,16 @@ getProjectDetails(){
   console.log(this.starRating);
   console.log(this.tag);
   this.getSimilarProjects(this.tag);
-  this.progress=(res.data.total_target-res.data.current_donation)/100;
+  if(res.data.current_donation===res.data.total_target){
+    this.progress=100;
+  }
+  else if(res.data.current_donation ==0){
+    this.progress=0
+  }
+  else{
+    this.progress=(res.data.total_target-res.data.current_donation)/100;
+  }
+
   console.log(this.progress)
 },
 (error) => {
@@ -232,7 +245,10 @@ getAllComments(){
 
 
   ngOnInit(): void {
-
+    this.id=this._Activatedroute.snapshot.params["id"];
+    console.log(this.id);
+    this.getProjectDetails();
+    this.getAllComments();
   }
 /* ______________________                      _____________________
 __________________________ Swiper Configration ____________________*/

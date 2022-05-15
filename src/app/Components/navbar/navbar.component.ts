@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
   closeSearch(){
     $(".search-bar").slideToggle(300);
     $(".fixed-layer").delay( 300 ).fadeOut();
+
   }
   /* __________________________              __________________________ */
   /* ________________________ All Projects __________________________ */
