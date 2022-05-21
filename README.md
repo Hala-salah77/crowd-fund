@@ -1,27 +1,28 @@
-# CrowdFunding
+<h1 align="center"> Crowd Funding Web App </h1>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.2.
+## Description :
 
-## Development server
+Crowdfunding is the practice of funding a project or venture by raising small amounts of money from a large number of people, typically via the Internet. Crowdfunding is a form of crowd sourcing and alternative finance. In 2015, over US$34 billion was raised worldwide by crowdfunding.
+The aim of the project: Create a web platform for starting fundraiser projects in Egypt.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## To run this project :
 
-## Code scaffolding
+`Step 1` : Download the source code .
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+git clone https://github.com/Hala-salah77/crowd-fund.git
+```
 
-## Build
+`Step 2` : download background API
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+<h3 align="center">https://github.com/MohamedAlabasy/Crowd-Funding-Web-App-Django-ITI</h3>
 
-## Running unit tests
+`Step 3` : Enter the project file then ...
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+npm i -force
+```
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+npm start
+```
