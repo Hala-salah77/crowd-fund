@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   emailMessages:any;
   firstNameMessages:any;
   lastNameMessages:any;
-
+  confirmPasswordMessage:any;
   constructor(private toastr: ToastrService,private _AuthService:AuthService,private _Router:Router) { }
 
   registerForm:FormGroup=new FormGroup({
@@ -54,15 +54,15 @@ getRegistered() {
       this._AuthService.register(formData).subscribe((res)=>{
         console.log(res);
         console.log(res.status);
-        this.showSuccess('User Added Successfully',"Registration");
+        this.showSuccess('Success Registration',"check your mail to verify you account");
         this.registerForm.reset();
         this._Router.navigate(['/login']);
       },
       (error) => {
+        this.confirmPasswordMessage=error.error.message_error[0].password
         this.emailMessages=error.error.message_error.email[0];
         this.firstNameMessages=error.error.message_error.first_name[0];
         this.lastNameMessages=error.error.message_error.last_name[0];
-        console.log(this.emailMessages);
       })
 
 }
