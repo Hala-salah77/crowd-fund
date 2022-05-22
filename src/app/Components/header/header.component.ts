@@ -9,6 +9,7 @@ declare var $: any;
 })
 export class HeaderComponent implements OnInit {
   topRatedProjectsArray:any;
+  token=localStorage.getItem('token');
   image:string='';
   constructor(private _home:HomeService) {
     this.topRatedProjects()

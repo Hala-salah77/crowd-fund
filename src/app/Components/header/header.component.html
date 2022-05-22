@@ -27,7 +27,8 @@
       <div class="col-md-6">
         <div class="homepage-container">
           <h1 class="h3 hero-headline no-toc mb-4">Fundraising on GoFundMe <br>takes just a few minutes</h1>
-          <a id="started" class="btn btn-outline-warning" routerLink="#">Get Started</a>
+          <a routerLink="/profile/myprojects" id="started" class="btn btn-outline-warning down"  *ngIf="token">My Projects</a>
+          <a routerLink="/register" id="started" class="btn btn-outline-warning down"  *ngIf="!token">Join Us</a>
         </div>
       </div>
     </div>

@@ -4,6 +4,10 @@
   --sec:#f5ba1a;
   --pColor: #232D4B;
 }
+html {
+  scroll-behavior: smooth;
+}
+
 body{
   overflow-x: hidden;
 }
